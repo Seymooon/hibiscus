@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For You</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+  }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffeaf2;
+  }
+
+  /* 🌸 background glow */
+  .bg {
+    position: fixed;
+    inset: -50%;
+    background:
+      radial-gradient(circle at 20% 30%, #ffb6c855, transparent 45%),
+      radial-gradient(circle at 80% 70%, #ff8fb155, transparent 50%),
+      radial-gradient(circle at 50% 50%, #ffd6e655, transparent 60%);
+    filter: blur(80px);
+    z-index: -3;
+  }
+
+  /* 🌺 floating background flowers */
+  .flower {
+    position: fixed;
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+    opacity: 0.18;
+    z-index: -2;
+  }
+
+  /* TOP TEXT */
+  .wrap {
+    text-align: center;
+    z-index: 2;
+  }
+
+  #msg {
+    font-size: 30px;
+    font-weight: 500;
+    color: #b0124a;
+    margin-bottom: 10px;
+  }
+
+  .sub {
+    font-size: 15px;
+    color: #7a4a5a;
+    margin-bottom: 25px;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 82px);
+    grid-template-rows: repeat(4, 82px);
+    gap: 12px;
+    transition: opacity 1s ease;
+    z-index: 2;
+  }
+
+  .grid.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tile {
+    width: 82px;
+    height: 82px;
+    border-radius: 16px;
+    background: #fff0f5;
+    cursor: pointer;
+    position: relative;
+    transition: 0.8s ease;
+    overflow: hidden;
+  }
+
+  .tile.active {
+    background: #ff6fae;
+  }
+
+  .tile.active::after {
+    content: "🌺";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+  }
+
+  /* 🌸 FINAL OVERLAY (ABOVE EVERYTHING) */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 240, 245, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 1.5s ease;
+    z-index: 10; /* IMPORTANT FIX */
+  }
+
+  .overlay.show {
+    opacity: 1;
+  }
+
+  .final {
+    font-size: 44px;
+    font-weight: 600;
+    color: #b0124a;
+    text-align: center;
+    position: relative;
+    z-index: 20; /* IMPORTANT FIX */
+  }
+
+  /* 🌺 FINAL FLOWERS LAYER (BEHIND TEXT) */
+  #finalFlowers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+    z-index: 5; /* IMPORTANT FIX */
+  }
+
+  .final-flower {
+    position: absolute;
+    font-size: 22px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="wrap">
+  <div id="msg">you feel like home in ways i can’t explain</div>
+  <div class="sub">tap the moments</div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="final">I LOVE YOU SO MUCH</div>
+</div>
+
+<div id="finalFlowers"></div>
+
+<script>
+
+/* TEXT LOOP */
+const messages = [
+  "you feel like home in ways i can’t explain",
+  "i notice you in everything i do",
+  "you became my quiet place",
+  "loving you feels natural",
+  "i choose you always"
+]
+
+let i = 0
+const msg = document.getElementById("msg")
+
+setInterval(() => {
+  i = (i + 1) % messages.length
+  msg.textContent = messages[i]
+}, 3000)
+
+/* BACKGROUND FLOWERS */
+function bgFlower() {
+  const f = document.createElement("div")
+  f.className = "flower"
+  f.textContent = "🌺"
+
+  f.style.left = Math.random() * 100 + "vw"
+  f.style.top = "100vh"
+
+  document.body.appendChild(f)
+
+  let y = 100
+  const speed = 0.3 + Math.random()
+
+  function move() {
+    y -= speed
+    f.style.top = y + "vh"
+    if (y < -10) f.remove()
+    else requestAnimationFrame(move)
+  }
+
+  move()
+}
+
+setInterval(bgFlower, 300)
+
+/* FINAL FLOWERS */
+const finalFlowers = document.getElementById("finalFlowers")
+
+function spawnFinalFlower() {
+  const f = document.createElement("div")
+  f.className = "final-flower"
+  f.textContent = "🌺"
+
+  f.style.left = Math.random() * 100 + "vw"
+  f.style.top = Math.random() * 100 + "vh"
+
+  finalFlowers.appendChild(f)
+}
+
+/* GRID */
+const grid = document.getElementById("grid")
+const overlay = document.getElementById("overlay")
+
+let count = 0
+const total = 16
+
+for (let i = 0; i < total; i++) {
+  const tile = document.createElement("div")
+  tile.className = "tile"
+
+  tile.onclick = () => {
+    if (tile.classList.contains("active")) return
+
+    tile.classList.add("active")
+    count++
+
+    if (count === total) {
+      grid.classList.add("hide")
+      overlay.classList.add("show")
+
+      finalFlowers.style.display = "block"
+
+      for (let i = 0; i < 120; i++) {
+        setTimeout(() => spawnFinalFlower(), i * 15)
+      }
+    }
+  }
+
+  grid.appendChild(tile)
+}
+</script>
+
+</body>
+</html>
