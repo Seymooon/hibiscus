@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>For You</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +16,7 @@
   }
 
   body {
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -33,57 +34,55 @@
       radial-gradient(circle at 80% 70%, #ff8fb155, transparent 50%),
       radial-gradient(circle at 50% 50%, #ffd6e655, transparent 60%);
     filter: blur(80px);
-    z-index: -3;
-  }
-
-  /* 🌺 floating background flowers */
-  .flower {
-    position: fixed;
-    width: 26px;
-    height: 26px;
-    pointer-events: none;
-    opacity: 0.18;
     z-index: -2;
   }
 
-  /* TOP TEXT */
+  /* 🌺 floating flowers */
+  .flower {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.2;
+  }
+
   .wrap {
     text-align: center;
-    z-index: 2;
+    transform: scale(0.92);
   }
 
   #msg {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 500;
     color: #b0124a;
     margin-bottom: 10px;
   }
 
   .sub {
-    font-size: 15px;
+    font-size: 14px;
     color: #7a4a5a;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 
-  /* GRID */
+  /* GRID (IPHONE 11 PRO FIT) */
   .grid {
     display: grid;
-    grid-template-columns: repeat(4, 82px);
-    grid-template-rows: repeat(4, 82px);
-    gap: 12px;
-    transition: opacity 1s ease;
-    z-index: 2;
+    grid-template-columns: repeat(4, 70px);
+    grid-template-rows: repeat(4, 70px);
+    gap: 10px;
   }
 
   .grid.hide {
     opacity: 0;
     pointer-events: none;
+    transition: 1s ease;
   }
 
   .tile {
-    width: 82px;
-    height: 82px;
-    border-radius: 16px;
+    width: 70px;
+    height: 70px;
+    border-radius: 14px;
     background: #fff0f5;
     cursor: pointer;
     position: relative;
@@ -102,10 +101,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 22px;
   }
 
-  /* 🌸 FINAL OVERLAY (ABOVE EVERYTHING) */
+  /* FINAL OVERLAY */
   .overlay {
     position: fixed;
     inset: 0;
@@ -116,7 +115,7 @@
     opacity: 0;
     pointer-events: none;
     transition: 1.5s ease;
-    z-index: 10; /* IMPORTANT FIX */
+    z-index: 10;
   }
 
   .overlay.show {
@@ -124,26 +123,24 @@
   }
 
   .final {
-    font-size: 44px;
+    font-size: 34px;
     font-weight: 600;
     color: #b0124a;
     text-align: center;
-    position: relative;
-    z-index: 20; /* IMPORTANT FIX */
   }
 
-  /* 🌺 FINAL FLOWERS LAYER (BEHIND TEXT) */
+  /* FINAL FLOWERS */
   #finalFlowers {
     position: fixed;
     inset: 0;
     pointer-events: none;
+    z-index: 5;
     display: none;
-    z-index: 5; /* IMPORTANT FIX */
   }
 
   .final-flower {
     position: absolute;
-    font-size: 22px;
+    font-size: 20px;
   }
 </style>
 </head>
@@ -167,7 +164,7 @@
 
 <script>
 
-/* TEXT LOOP */
+/* TEXT */
 const messages = [
   "you feel like home in ways i can’t explain",
   "i notice you in everything i do",
