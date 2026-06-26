@@ -25,52 +25,56 @@
     background: #ffeaf2;
   }
 
-  /* 🌸 background glow */
+  /* 🌸 cinematic background */
   .bg {
     position: fixed;
-    inset: -50%;
+    inset: -60%;
     background:
-      radial-gradient(circle at 20% 30%, #ffb6c855, transparent 45%),
-      radial-gradient(circle at 80% 70%, #ff8fb155, transparent 50%),
+      radial-gradient(circle at 25% 30%, #ffb6c855, transparent 45%),
+      radial-gradient(circle at 75% 70%, #ff8fb155, transparent 50%),
       radial-gradient(circle at 50% 50%, #ffd6e655, transparent 60%);
-    filter: blur(80px);
-    z-index: -2;
+    filter: blur(90px);
+    z-index: -3;
   }
 
   /* 🌺 floating flowers */
   .flower {
     position: fixed;
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     pointer-events: none;
-    z-index: -1;
-    opacity: 0.2;
+    opacity: 0.18;
+    z-index: -2;
   }
 
+  /* CENTER WRAP (iPhone 11 Pro Max optimized) */
   .wrap {
     text-align: center;
-    transform: scale(0.92);
+    transform: scale(1);
+    max-width: 420px;
+    padding: 20px;
   }
 
   #msg {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 500;
     color: #b0124a;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .sub {
     font-size: 14px;
     color: #7a4a5a;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
-  /* GRID (IPHONE 11 PRO FIT) */
+  /* GRID (slightly larger for Pro Max) */
   .grid {
     display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: repeat(4, 70px);
-    gap: 10px;
+    grid-template-columns: repeat(4, 78px);
+    grid-template-rows: repeat(4, 78px);
+    gap: 12px;
+    justify-content: center;
   }
 
   .grid.hide {
@@ -80,9 +84,9 @@
   }
 
   .tile {
-    width: 70px;
-    height: 70px;
-    border-radius: 14px;
+    width: 78px;
+    height: 78px;
+    border-radius: 16px;
     background: #fff0f5;
     cursor: pointer;
     position: relative;
@@ -101,21 +105,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 24px;
   }
 
-  /* FINAL OVERLAY */
+  /* FINAL SCREEN (IMPORTANT FIX) */
   .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(255, 240, 245, 0.92);
+    background: rgba(255, 240, 245, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: 1.5s ease;
-    z-index: 10;
+    z-index: 20;
   }
 
   .overlay.show {
@@ -123,24 +127,25 @@
   }
 
   .final {
-    font-size: 34px;
+    font-size: 42px;
     font-weight: 600;
     color: #b0124a;
     text-align: center;
+    z-index: 30;
   }
 
-  /* FINAL FLOWERS */
+  /* FINAL FLOWERS LAYER */
   #finalFlowers {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 5;
     display: none;
+    z-index: 10;
   }
 
   .final-flower {
     position: absolute;
-    font-size: 20px;
+    font-size: 22px;
   }
 </style>
 </head>
@@ -164,7 +169,7 @@
 
 <script>
 
-/* TEXT */
+/* TEXT LOOP */
 const messages = [
   "you feel like home in ways i can’t explain",
   "i notice you in everything i do",
@@ -193,7 +198,7 @@ function bgFlower() {
   document.body.appendChild(f)
 
   let y = 100
-  const speed = 0.3 + Math.random()
+  const speed = 0.4 + Math.random()
 
   function move() {
     y -= speed
@@ -205,7 +210,7 @@ function bgFlower() {
   move()
 }
 
-setInterval(bgFlower, 300)
+setInterval(bgFlower, 250)
 
 /* FINAL FLOWERS */
 const finalFlowers = document.getElementById("finalFlowers")
@@ -244,8 +249,8 @@ for (let i = 0; i < total; i++) {
 
       finalFlowers.style.display = "block"
 
-      for (let i = 0; i < 120; i++) {
-        setTimeout(() => spawnFinalFlower(), i * 15)
+      for (let i = 0; i < 140; i++) {
+        setTimeout(() => spawnFinalFlower(), i * 12)
       }
     }
   }
